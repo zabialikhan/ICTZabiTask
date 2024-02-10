@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRO: Task Management Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>PRO: Task Management Tool</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="search.html">Search Task</a></li>
+            <li><a href="taskplan.html">Task Plan</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <form id="taskForm">
+            <input type="text" id="title" placeholder="Title" required>
+            <input type="text" id="description" placeholder="Description" required>
+            <input type="date" id="dueDate" required>
+            <select id="priority" required>
+                <option value="" disabled selected>Select Priority</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+            <select id="status" required>
+                <option value="" disabled selected>Select Status</option>
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+            <button type="submit">Add Task</button>
+        </form>
+
+        <input type="text" id="searchInput" placeholder="Search task...">
+        <table id="taskTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sample tasks will be dynamically added here -->
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>Web App. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var title = document.getElementById('title').value;
+            var description = document.getElementById('description').value;
+            var dueDate = document.getElementById('dueDate').value;
+            var priority = document.getElementById('priority').value;
+            var status = document.getElementById('status').value;
+
+            var newRow = '<tr><td>' + title + '</td><td>' + description + '</td><td>' + dueDate + '</td><td>' + priority + '</td><td>' + status + '</td></tr>';
+            document.querySelector('#taskTable tbody').innerHTML += newRow;
+
+            // Reset the form after submission
+            document.getElementById('taskForm').reset();
+        });
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            var searchText = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#taskTable tbody tr');
+            
+            rows.forEach(function(row) {
+                var cells = row.querySelectorAll('td');
+                var found = false;
+                cells.forEach(function(cell) {
+                    if (cell.textContent.toLowerCase().includes(searchText)) {
+                        found = true;
+                    }
+                });
+                if (found) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
